@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:wanflutter/constant/constants.dart';
 import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/http/api.dart';
 import 'package:wanflutter/http/http_manager.dart';
@@ -31,21 +31,22 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<AppConfig>(
         builder: (context, AppConfig appConfig, _) => MaterialApp(
-          title: 'Flutter Demo',
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          locale: appConfig.currLocale,
-          home: MyHomePage(appConfig: appConfig),
-        ),
+            title: 'Flutter Demo',
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            locale: appConfig.currLocale,
+            home: FlutterEasyLoading(
+              child: MyHomePage(appConfig: appConfig),
+            )),
       ),
     );
   }
@@ -63,6 +64,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   List<Widget> _pages = List<Widget>();
+  DateTime _lastPressedAt; //上次点击时间
 
   @override
   void initState() {
@@ -76,10 +78,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: _getBoottomNavBar(context),
-      body: _pages[_currentIndex],
-    );
+    return WillPopScope(
+        onWillPop: () async {
+          if (_lastPressedAt == null ||
+              DateTime.now().difference(_lastPressedAt) >
+                  Duration(seconds: 1)) {
+            //两次点击间隔超过1秒则重新计时
+            _lastPressedAt = DateTime.now();
+            return false;
+          }
+          return true;
+        },
+        child: Scaffold(
+          bottomNavigationBar: _getBoottomNavBar(context),
+          body: _pages[_currentIndex],
+        ));
   }
 
   Widget _getBoottomNavBar(BuildContext context) {

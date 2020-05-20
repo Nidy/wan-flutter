@@ -44,6 +44,18 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "chewie",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/chewie-0.9.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "chewie_audio",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/chewie_audio-1.0.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "collection",
       "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/collection-1.14.12",
       "packageUri": "lib/",
@@ -80,6 +92,18 @@
       "languageVersion": "2.1"
     },
     {
+      "name": "css_colors",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/css_colors-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "1.19"
+    },
+    {
+      "name": "csslib",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/csslib-0.16.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/cupertino_icons-0.1.3",
       "packageUri": "lib/",
@@ -98,8 +122,32 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "flutter_easyloading",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/flutter_easyloading-1.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
+      "name": "flutter_html",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/flutter_html-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
       "name": "flutter_localizations",
       "rootUri": "file:///Users/yang/Flutter/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
+      "name": "flutter_spinkit",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/flutter_spinkit-4.1.2+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.5"
+    },
+    {
+      "name": "flutter_svg",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/flutter_svg-0.17.4",
       "packageUri": "lib/",
       "languageVersion": "2.2"
     },
@@ -114,6 +162,12 @@
       "rootUri": "file:///Users/yang/Flutter/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "2.0"
+    },
+    {
+      "name": "html",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/html-0.14.0+3",
+      "packageUri": "lib/",
+      "languageVersion": "2.3"
     },
     {
       "name": "http",
@@ -170,10 +224,28 @@
       "languageVersion": "2.2"
     },
     {
+      "name": "open_iconic_flutter",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/open_iconic_flutter-0.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "path",
       "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/path-1.6.4",
       "packageUri": "lib/",
       "languageVersion": "2.0"
+    },
+    {
+      "name": "path_drawing",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/path_drawing-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "1.19"
+    },
+    {
+      "name": "path_parsing",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/path_parsing-0.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "1.19"
     },
     {
       "name": "pedantic",
@@ -214,6 +286,12 @@
     {
       "name": "quiver",
       "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/quiver-2.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "screen",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/screen-0.0.5",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -314,6 +392,36 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "video_player",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/video_player-0.10.11",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "video_player_platform_interface",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/video_player_platform_interface-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "video_player_web",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/video_player_web-0.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
+      "name": "wakelock",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/wakelock-0.1.4+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
+      "name": "webview_flutter",
+      "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/webview_flutter-0.3.21",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "xml",
       "rootUri": "file:///Users/yang/.pub-cache/hosted/pub.flutter-io.cn/xml-3.6.1",
       "packageUri": "lib/",
@@ -326,7 +434,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-05-19T03:22:01.878844Z",
+  "generated": "2020-05-19T08:48:13.877657Z",
   "generator": "pub",
   "generatorVersion": "2.8.2"
 }
