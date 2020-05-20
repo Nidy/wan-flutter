@@ -6,7 +6,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanflutter/http/entity/article_entity.dart';
 import 'package:wanflutter/modules/home/home_provider.dart';
 import 'package:wanflutter/router/bootom2top_router.dart';
-import 'package:wanflutter/widget/common_webview.dart';
+import 'package:wanflutter/widget/banner_widget.dart';
+import 'package:wanflutter/widget/webview/common_webview.dart';
 
 class HomePage extends StatelessWidget {
   final _hp = HomeProvider();
@@ -17,18 +18,6 @@ class HomePage extends StatelessWidget {
       create: (_) => _hp,
       child: Consumer(
         builder: (context, HomeProvider hp, _) => Scaffold(
-          appBar: AppBar(
-            title: Text('文章'),
-            centerTitle: true,
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => EasyLoading.show(status: 'loading')),
-            ],
-          ),
           body: SmartRefresher(
             enablePullDown: true,
             enablePullUp: true,
@@ -39,13 +28,46 @@ class HomePage extends StatelessWidget {
             onLoading: () async {
               await hp.getArticalList(isRefresh: false);
             },
-            child: ListView.builder(
-              itemBuilder: (c, i) =>
-                  _itemArticle(context, hp.articleList[i]),
-              itemCount: hp.articleList.length,
-            ),
+            child: CustomScrollView(slivers: <Widget>[
+              _appBar(context, hp),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (c, i) => _itemArticle(context, hp.articleList[i]),
+                  childCount: hp.articleList.length,
+                ),
+              ),
+            ]),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _appBar(BuildContext context, HomeProvider hp) {
+    return SliverAppBar(
+      backgroundColor: Colors.transparent,
+      pinned: false,
+      floating: false,
+      forceElevated: true,
+      expandedHeight: 240,
+      flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin, //视差效果,
+        background: hp.bannerCached
+            ? CustomBanner(
+                hp.bannerImages,
+                height: 240,
+                onTap: (i) => Navigator.push(
+                    context,
+                    Bottom2TopRouter(
+                        child: CommonWebview(
+                      title: hp.banners[i].title,
+                      url: hp.banners[i].url,
+                    ))),
+              )
+            : Image.asset(
+                "assets/images/home_banner.png",
+                fit: BoxFit.fill,
+              ),
       ),
     );
   }
@@ -56,9 +78,9 @@ class HomePage extends StatelessWidget {
           ctx,
           Bottom2TopRouter(
               child: CommonWebview(
-                title: ae.title,
-                url: ae.link,
-              ))),
+            title: ae.title,
+            url: ae.link,
+          ))),
       child: SizedBox(
         child: Card(
           margin: EdgeInsets.all(8),
