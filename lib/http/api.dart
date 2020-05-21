@@ -1,9 +1,12 @@
 class Api {
-  static const String BASE_URL = "https://www.wanandroid.com/";
+  static const String BASE_URL = "https://www.wanandroid.com";
 
-  ///首页文章
-  static const String ARTICLE = "article/list/0/json";
+  ///*首页文章
+  static const String ARTICLE = "/article/list/0/json";
 
-  //首页banner
-  static const String BANNER = "banner/json";
+  ///*首页banner
+  static const String BANNER = "/banner/json";
+
+  ///*项目类别
+  static const String PROJECT_CATEGORY = "/project/tree/json";
 }

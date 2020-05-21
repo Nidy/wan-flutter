@@ -6,27 +6,38 @@ import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/http/api.dart';
 import 'package:wanflutter/http/http_manager.dart';
 import 'package:wanflutter/modules/accounts_page.dart';
-import 'package:wanflutter/modules/home_page.dart';
+import 'package:wanflutter/modules/home/home_page.dart';
+import 'package:wanflutter/modules/home/provider/home_provider.dart';
 import 'package:wanflutter/modules/mine_page.dart';
-import 'package:wanflutter/modules/project_page.dart';
+import 'package:wanflutter/modules/project/project_page.dart';
+import 'package:wanflutter/modules/project/provider/project_provider.dart';
 import 'package:wanflutter/setting/app_config.dart';
 import 'package:wanflutter/utils/log_utils.dart';
 
 void main() {
   HttpManager().init(baseUrl: Api.BASE_URL);
   LogUtil.init(isDebug: true);
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   final _appConfig = AppConfig();
+  final _homeProvider = HomeProvider();
+  final _projectProvider = ProjectProvider();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AppConfig>(
           create: (_) => _appConfig,
+        ),
+        ChangeNotifierProvider<HomeProvider>(
+          create: (_) => _homeProvider,
+        ),
+        ChangeNotifierProvider<ProjectProvider>(
+          create: (_) => _projectProvider,
         ),
       ],
       child: Consumer<AppConfig>(
@@ -53,6 +64,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+  final homePage = HomePage();
+  final projectPage = ProjectPage();
+  final accountPage = AccountsPage();
+  final minePage = MinePage();
   MyHomePage({Key key, this.appConfig}) : super(key: key);
 
   final AppConfig appConfig;
@@ -69,10 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _pages
-      ..add(HomePage())
-      ..add(ProjectPage())
-      ..add(AccountsPage())
-      ..add(MinePage());
+      ..add(widget.homePage)
+      ..add(widget.projectPage)
+      ..add(widget.accountPage)
+      ..add(widget.minePage);
     super.initState();
   }
 
@@ -83,8 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
           if (_lastPressedAt == null ||
               DateTime.now().difference(_lastPressedAt) >
                   Duration(seconds: 1)) {
-            //两次点击间隔超过1秒则重新计时
             _lastPressedAt = DateTime.now();
+            EasyLoading.showToast('再次点击退出app');
             return false;
           }
           return true;

@@ -8,7 +8,6 @@ class CustomBanner extends StatefulWidget {
   final ValueChanged<int> onTap;
   final Curve curve;
 
-
   CustomBanner(
     this.images, {
     this.height = 200,
@@ -120,11 +119,13 @@ class _CustomBannerState extends State<CustomBanner> {
     if (_timer == null) {
       _timer = Timer.periodic(Duration(seconds: 3), (t) {
         _curIndex++;
-        _pageController.animateToPage(
-          _curIndex,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.linear,
-        );
+        if (_pageController.hasClients) {
+          _pageController.animateToPage(
+            _curIndex,
+            duration: Duration(milliseconds: 300),
+            curve: Curves.linear,
+          );
+        }
       });
     }
   }
