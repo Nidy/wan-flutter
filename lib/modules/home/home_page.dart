@@ -11,41 +11,49 @@ import 'package:wanflutter/widget/banner_widget.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
 
 class HomePage extends StatelessWidget {
+  factory HomePage() => _getInstance();
+  static HomePage _instance;
+  HomePage._init();
+
+  static HomePage get instance => _getInstance();
+  static HomePage _getInstance() {
+    if (_instance == null) {
+      _instance = new HomePage._init();
+    }
+    return _instance;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (context, HomeProvider hp, _) => FutureProvider(
-        create: (_) => hp.getArticalList(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(S.of(context).tabHome),
-            centerTitle: true,
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.search, color: Colors.white),
-                  onPressed: null)
-            ],
-          ),
-          body: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
-            controller: hp.refreshController,
-            onRefresh: () async {
-              await hp.getArticalList();
-            },
-            onLoading: () async {
-              await hp.getArticalList(isRefresh: false);
-            },
-            child: CustomScrollView(slivers: <Widget>[
-              _appBar(context, hp),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (c, i) => _itemArticle(context, hp.articleList[i]),
-                  childCount: hp.articleList.length,
-                ),
+      builder: (context, HomeProvider hp, _) => Scaffold(
+        appBar: AppBar(
+          title: Text(S.of(context).tabHome),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.search, color: Colors.white), onPressed: null)
+          ],
+        ),
+        body: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          controller: hp.refreshController,
+          onRefresh: () async {
+            await hp.getArticalList();
+          },
+          onLoading: () async {
+            await hp.getArticalList(isRefresh: false);
+          },
+          child: CustomScrollView(slivers: <Widget>[
+            _appBar(context, hp),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (c, i) => _itemArticle(context, hp.articleList[i]),
+                childCount: hp.articleList.length,
               ),
-            ]),
-          ),
+            ),
+          ]),
         ),
       ),
     );

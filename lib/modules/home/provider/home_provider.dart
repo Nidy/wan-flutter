@@ -45,7 +45,7 @@ class HomeProvider with ChangeNotifier {
                   _articleList.clear();
                 }
                 _articleList.addAll(en.datas);
-                if (pageNum == 3) {
+                if (pageNum == en.pageCount){
                   _refreshController.resetNoData();
                 }
                 notifyListeners();

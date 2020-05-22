@@ -7,6 +7,8 @@ import 'package:wanflutter/http/entity/banner_entity.dart';
 import 'package:wanflutter/generated/json/banner_entity_helper.dart';
 import 'package:wanflutter/http/entity/article_entity.dart';
 import 'package:wanflutter/generated/json/article_entity_helper.dart';
+import 'package:wanflutter/http/entity/project_entity.dart';
+import 'package:wanflutter/generated/json/project_entity_helper.dart';
 import 'package:wanflutter/http/entity/project_category_entity.dart';
 import 'package:wanflutter/generated/json/project_category_entity_helper.dart';
 
@@ -22,7 +24,9 @@ class JsonConvert<T> {
   static _getFromJson<T>(Type type, data, json) {
     switch (type) {			case BannerEntity:
 			return bannerEntityFromJson(data as BannerEntity, json) as T;			case ArticleEntity:
-			return articleEntityFromJson(data as ArticleEntity, json) as T;			case ProjectCategoryEntity:
+			return articleEntityFromJson(data as ArticleEntity, json) as T;			case ProjectEntity:
+			return projectEntityFromJson(data as ProjectEntity, json) as T;			case ProjectTag:
+			return projectTagFromJson(data as ProjectTag, json) as T;			case ProjectCategoryEntity:
 			return projectCategoryEntityFromJson(data as ProjectCategoryEntity, json) as T;    }
     return data as T;
   }
@@ -30,7 +34,9 @@ class JsonConvert<T> {
   static _getToJson<T>(Type type, data) {
 		switch (type) {			case BannerEntity:
 			return bannerEntityToJson(data as BannerEntity);			case ArticleEntity:
-			return articleEntityToJson(data as ArticleEntity);			case ProjectCategoryEntity:
+			return articleEntityToJson(data as ArticleEntity);			case ProjectEntity:
+			return projectEntityToJson(data as ProjectEntity);			case ProjectTag:
+			return projectTagToJson(data as ProjectTag);			case ProjectCategoryEntity:
 			return projectCategoryEntityToJson(data as ProjectCategoryEntity);    }
     return data as T;
   }
@@ -38,7 +44,9 @@ class JsonConvert<T> {
   static _fromJsonSingle(String type, json) {
     switch (type) {			case 'BannerEntity':
 			return BannerEntity().fromJson(json);			case 'ArticleEntity':
-			return ArticleEntity().fromJson(json);			case 'ProjectCategoryEntity':
+			return ArticleEntity().fromJson(json);			case 'ProjectEntity':
+			return ProjectEntity().fromJson(json);			case 'ProjectTag':
+			return ProjectTag().fromJson(json);			case 'ProjectCategoryEntity':
 			return ProjectCategoryEntity().fromJson(json);    }
     return null;
   }
@@ -47,7 +55,9 @@ class JsonConvert<T> {
   static _getListFromType(String type) {
     switch (type) {			case 'BannerEntity':
 			return List<BannerEntity>();			case 'ArticleEntity':
-			return List<ArticleEntity>();			case 'ProjectCategoryEntity':
+			return List<ArticleEntity>();			case 'ProjectEntity':
+			return List<ProjectEntity>();			case 'ProjectTag':
+			return List<ProjectTag>();			case 'ProjectCategoryEntity':
 			return List<ProjectCategoryEntity>();    }
     return null;
   }

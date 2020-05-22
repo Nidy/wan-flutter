@@ -64,10 +64,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  final homePage = HomePage();
-  final projectPage = ProjectPage();
+  final homePage = HomePage.instance;
+  final projectPage = ProjectPage.instance;
   final accountPage = AccountsPage();
   final minePage = MinePage();
+
   MyHomePage({Key key, this.appConfig}) : super(key: key);
 
   final AppConfig appConfig;
@@ -77,18 +78,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  PageController _pageController;
   int _currentIndex = 0;
   List<Widget> _pages = List<Widget>();
   DateTime _lastPressedAt; //上次点击时间
 
   @override
   void initState() {
+    super.initState();
     _pages
       ..add(widget.homePage)
       ..add(widget.projectPage)
       ..add(widget.accountPage)
       ..add(widget.minePage);
-    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
@@ -106,7 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: Scaffold(
           bottomNavigationBar: _getBoottomNavBar(context),
-          body: _pages[_currentIndex],
+          body: PageView.builder(
+              controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return _pages[index];
+              }),
         ));
   }
 
@@ -158,6 +166,13 @@ class _MyHomePageState extends State<MyHomePage> {
       onTap: (int index) {
         setState(() {
           _currentIndex = index;
+          if (_pageController.hasClients) {
+            _pageController.animateToPage(
+              _currentIndex,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.linear,
+            );
+          }
         });
       },
     );
