@@ -12,7 +12,7 @@ class HomeProvider with ChangeNotifier {
   static const TAG = "home";
   var pageNum = 0;
 
-  var _refreshController = RefreshController(initialRefresh: true);
+  var _refreshController = RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
   var _articleList = List<ArticleEntity>();
   List<ArticleEntity> get articleList => _articleList;
@@ -22,10 +22,6 @@ class HomeProvider with ChangeNotifier {
   List<String> get bannerImages => _getBannerImages();
   bool _bannerCached = false;
   bool get bannerCached => _bannerCached;
-
-  HomeProvider() {
-    loadBanner();
-  }
 
   Future getArticalList({bool isRefresh = true}) async {
     if (isRefresh) {

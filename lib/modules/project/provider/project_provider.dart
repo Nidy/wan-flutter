@@ -10,7 +10,7 @@ import 'package:wanflutter/utils/log_utils.dart';
 
 class ProjectProvider with ChangeNotifier {
   static const String TAG = "project";
-  
+
   var _refreshController = RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
 
@@ -20,24 +20,32 @@ class ProjectProvider with ChangeNotifier {
   var _projectList = List<ProjectEntity>();
   List<ProjectEntity> get projectList => _projectList;
 
-  ProjectProvider() {
-    getCategory();
+  factory ProjectProvider() => _getInstance();
+  static ProjectProvider _instance;
+  ProjectProvider._init();
+
+  static ProjectProvider get instance => _getInstance();
+  static ProjectProvider _getInstance() {
+    if (_instance == null) {
+      _instance = new ProjectProvider._init();
+    }
+    return _instance;
   }
 
   ///*获取项目类别
   Future getCategory() async {
-    _pcList = await HttpManager()
+    return await HttpManager()
         .getAsync<List<ProjectCategoryEntity>>(
             url: Api.PROJECT_CATEGORY,
             tag: TAG,
             jsonParse: (json) {
-              if (json == null) {
-                return _pcList;
+              if (json != null) {
+                _pcList =
+                    EntityFactory.generateListObj<ProjectCategoryEntity>(json);
               }
-              return EntityFactory.generateListObj<ProjectCategoryEntity>(json);
+              return _pcList;
             })
         .catchError((e) => LogUtil.v(e.toString()));
-    notifyListeners();
   }
 
   ///*根据类别id获取项目列表

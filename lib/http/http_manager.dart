@@ -481,6 +481,7 @@ class HttpManager {
       int statusCode = response.data["errorCode"];
       if (statusCode == 0) {
         //成功
+        LogUtil.v("response: ${response.data["data"]}");
         if (jsonParse != null) {
           return jsonParse(response.data["data"]);
         } else {

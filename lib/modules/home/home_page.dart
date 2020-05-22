@@ -10,50 +10,58 @@ import 'package:wanflutter/theme/app_style.dart';
 import 'package:wanflutter/widget/banner_widget.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
 
-class HomePage extends StatelessWidget {
-  factory HomePage() => _getInstance();
-  static HomePage _instance;
-  HomePage._init();
+class HomePage extends StatefulWidget {
 
-  static HomePage get instance => _getInstance();
-  static HomePage _getInstance() {
-    if (_instance == null) {
-      _instance = new HomePage._init();
-    }
-    return _instance;
+  @override
+  State<StatefulWidget> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+  var _hp = HomeProvider();
+
+  @override
+  initState() {
+    super.initState();
+    _hp.loadBanner();
+    _hp.getArticalList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, HomeProvider hp, _) => Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).tabHome),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search, color: Colors.white), onPressed: null)
-          ],
-        ),
-        body: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          controller: hp.refreshController,
-          onRefresh: () async {
-            await hp.getArticalList();
-          },
-          onLoading: () async {
-            await hp.getArticalList(isRefresh: false);
-          },
-          child: CustomScrollView(slivers: <Widget>[
-            _appBar(context, hp),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (c, i) => _itemArticle(context, hp.articleList[i]),
-                childCount: hp.articleList.length,
+    super.build(context);
+    return ChangeNotifierProvider<HomeProvider>(
+      create: (_) => _hp,
+      child: Consumer(
+        builder: (context, HomeProvider hp, _) => Scaffold(
+          appBar: AppBar(
+            title: Text(S.of(context).tabHome),
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.search, color: Colors.white),
+                  onPressed: null)
+            ],
+          ),
+          body: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: true,
+            controller: hp.refreshController,
+            onRefresh: () async {
+              await hp.getArticalList();
+            },
+            onLoading: () async {
+              await hp.getArticalList(isRefresh: false);
+            },
+            child: CustomScrollView(slivers: <Widget>[
+              _appBar(context, hp),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (c, i) => _itemArticle(context, hp.articleList[i]),
+                  childCount: hp.articleList.length,
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ),
     );
@@ -152,4 +160,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

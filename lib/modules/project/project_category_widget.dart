@@ -10,23 +10,37 @@ import 'package:wanflutter/router/bootom2top_router.dart';
 import 'package:wanflutter/theme/app_style.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
 
-class ProjectCategoryWidget extends StatelessWidget {
+class ProjectCategoryWidget extends StatefulWidget {
   final ProjectCategoryEntity pcEntity;
 
   ProjectCategoryWidget(this.pcEntity);
 
   @override
+  _ProjectCategoryState createState() => _ProjectCategoryState();
+}
+
+class _ProjectCategoryState extends State<ProjectCategoryWidget>
+    with AutomaticKeepAliveClientMixin {
+      
+  @override
+  void initState() {
+    super.initState();
+    ProjectProvider.instance.loadProjectList(widget.pcEntity.id, true);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Consumer<ProjectProvider>(
       builder: (context, provider, child) => SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
         controller: provider.refreshController,
         onRefresh: () async {
-          await provider.loadProjectList(pcEntity.id, true);
+          await provider.loadProjectList(widget.pcEntity.id, true);
         },
         onLoading: () async {
-          await provider.loadProjectList(pcEntity.id, false);
+          await provider.loadProjectList(widget.pcEntity.id, false);
         },
         child: ListView.builder(
             itemBuilder: (BuildContext ctx, int index) {
@@ -108,4 +122,7 @@ class ProjectCategoryWidget extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -24,8 +24,8 @@ void main() {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   final _appConfig = AppConfig();
-  final _homeProvider = HomeProvider();
-  final _projectProvider = ProjectProvider();
+  // final _homeProvider = HomeProvider();
+  // final _projectProvider = ProjectProvider();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -33,12 +33,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AppConfig>(
           create: (_) => _appConfig,
         ),
-        ChangeNotifierProvider<HomeProvider>(
-          create: (_) => _homeProvider,
-        ),
-        ChangeNotifierProvider<ProjectProvider>(
-          create: (_) => _projectProvider,
-        ),
+        // ChangeNotifierProvider<HomeProvider>(
+        //   create: (_) => _homeProvider,
+        // ),
+        // ChangeNotifierProvider<ProjectProvider>(
+        //   create: (_) => _projectProvider,
+        // ),
       ],
       child: Consumer<AppConfig>(
         builder: (context, AppConfig appConfig, _) => MaterialApp(
@@ -64,8 +64,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  final homePage = HomePage.instance;
-  final projectPage = ProjectPage.instance;
+  final homePage = HomePage();
+  final projectPage = ProjectPage();
   final accountPage = AccountsPage();
   final minePage = MinePage();
 
