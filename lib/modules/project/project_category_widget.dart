@@ -12,8 +12,9 @@ import 'package:wanflutter/widget/webview/common_webview.dart';
 
 class ProjectCategoryWidget extends StatefulWidget {
   final ProjectCategoryEntity pcEntity;
+  final ProjectProvider provider;
 
-  ProjectCategoryWidget(this.pcEntity);
+  ProjectCategoryWidget(this.pcEntity, this.provider);
 
   @override
   _ProjectCategoryState createState() => _ProjectCategoryState();
@@ -21,11 +22,12 @@ class ProjectCategoryWidget extends StatefulWidget {
 
 class _ProjectCategoryState extends State<ProjectCategoryWidget>
     with AutomaticKeepAliveClientMixin {
-      
+
   @override
   void initState() {
     super.initState();
-    ProjectProvider.instance.loadProjectList(widget.pcEntity.id, true);
+    print("initState");
+    widget.provider.loadProjectList(widget.pcEntity.id, true);
   }
 
   @override
@@ -124,5 +126,5 @@ class _ProjectCategoryState extends State<ProjectCategoryWidget>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

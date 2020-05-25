@@ -20,18 +20,6 @@ class ProjectProvider with ChangeNotifier {
   var _projectList = List<ProjectEntity>();
   List<ProjectEntity> get projectList => _projectList;
 
-  factory ProjectProvider() => _getInstance();
-  static ProjectProvider _instance;
-  ProjectProvider._init();
-
-  static ProjectProvider get instance => _getInstance();
-  static ProjectProvider _getInstance() {
-    if (_instance == null) {
-      _instance = new ProjectProvider._init();
-    }
-    return _instance;
-  }
-
   ///*获取项目类别
   Future getCategory() async {
     return await HttpManager()
@@ -45,7 +33,8 @@ class ProjectProvider with ChangeNotifier {
               }
               return _pcList;
             })
-        .catchError((e) => LogUtil.v(e.toString()));
+        .catchError((e) => LogUtil.v(e.toString()))
+        .whenComplete(() => notifyListeners());
   }
 
   ///*根据类别id获取项目列表

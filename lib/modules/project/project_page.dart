@@ -4,6 +4,7 @@ import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/modules/project/project_category_widget.dart';
 import 'package:wanflutter/modules/project/provider/project_provider.dart';
 import 'package:wanflutter/theme/app_style.dart';
+import 'package:wanflutter/widget/empty_holder.dart';
 
 class ProjectPage extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _ProjectPageState extends State<ProjectPage>
       return _pages;
     }
     pp.pcList.forEach((element) {
-      _pages.add(ProjectCategoryWidget(element));
+      _pages.add(ProjectCategoryWidget(element, pp));
     });
     return _pages;
   }
@@ -46,14 +47,8 @@ class _ProjectPageState extends State<ProjectPage>
   void initState() {
     super.initState();
     _pp.getCategory().then((value) {
-      tabController = TabController(length: value.length, vsync: this);
-      tabController.addListener(() {
-        if (tabController.index == tabController.animation.value) {
-          _pp.loadProjectList(_pp.pcList[tabController.index].id, true);
-        }
-      });
       setState(() {
-        _currIndexStack = 1;
+        tabController = TabController(length: value.length, vsync: this);
       });
     });
   }
@@ -64,42 +59,55 @@ class _ProjectPageState extends State<ProjectPage>
     return ChangeNotifierProvider<ProjectProvider>(
       create: (_) => _pp,
       child: Consumer(builder: (context, ProjectProvider pp, _) {
-        return IndexedStack(index: _currIndexStack, children: <Widget>[
-          Scaffold(
-            appBar: AppBar(title: Text(S.of(context).tabProject)),
-          ),
-          Scaffold(
-            body: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverAppBar(
-                    title: Text(S.of(context).tabProject),
-                    centerTitle: true,
-                    floating: false,
-                    pinned: true,
-                    forceElevated: true,
-                    bottom: TabBar(
-                      tabs: _buildTabs(pp),
-                      controller: tabController,
-                      isScrollable: true,
-                      indicatorPadding: EdgeInsets.only(bottom: 2),
-                      indicatorSize: TabBarIndicatorSize.label,
-                    ),
-                  )
-                ];
-              },
-              body: TabBarView(
-                controller: tabController,
-                children: _buildBodyPage(pp),
+        if (pp.pcList.length < 1) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(S.of(context).tabProject),
+                centerTitle: true,
               ),
+              body: EmptyHolder());
+        }
+        
+        return Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  title: Text(S.of(context).tabProject),
+                  centerTitle: true,
+                  floating: false,
+                  pinned: true,
+                  forceElevated: true,
+                  bottom: TabBar(
+                    tabs: _buildTabs(pp),
+                    controller: tabController,
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.white70,
+                    isScrollable: true,
+                    indicatorColor: Colors.white,
+                    indicatorPadding: EdgeInsets.only(bottom: 2),
+                    indicatorSize: TabBarIndicatorSize.label,
+                  ),
+                )
+              ];
+            },
+            body: TabBarView(
+              controller: tabController,
+              children: _buildBodyPage(pp),
             ),
           ),
-        ]);
+        );
       }),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    tabController?.dispose();
+    super.dispose();
+  }
 }
