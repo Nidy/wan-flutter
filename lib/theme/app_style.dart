@@ -40,4 +40,16 @@ class AppStyle {
     fontSize: MiniTextSize,
     color: AppColor.black,
   );
+
+  //* 小字号文字样式，regular + 14
+  static TextStyle smallRegularTextWhite = TextStyle(
+    fontSize: SmallTextSize,
+    color: AppColor.white,
+  );
+
+  //* mini号文字样式，regular + 12
+  static TextStyle miniRegularTextWhite = TextStyle(
+    fontSize: MiniTextSize,
+    color: AppColor.white,
+  );
 }

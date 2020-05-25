@@ -6,6 +6,7 @@ import 'package:wanflutter/http/entity/project_category_entity.dart';
 import 'package:wanflutter/http/entity/project_entity.dart';
 import 'package:wanflutter/http/entity_factory.dart';
 import 'package:wanflutter/http/http_manager.dart';
+import 'package:wanflutter/modules/project/provider/project_model.dart';
 import 'package:wanflutter/utils/log_utils.dart';
 
 class ProjectProvider with ChangeNotifier {
@@ -15,48 +16,52 @@ class ProjectProvider with ChangeNotifier {
   RefreshController get refreshController => _refreshController;
 
   int pageNum = 1; //页码：拼接在链接中，从1开始。
-  var _pcList = List<ProjectCategoryEntity>();
-  List<ProjectCategoryEntity> get pcList => _pcList;
-  var _projectList = List<ProjectEntity>();
-  List<ProjectEntity> get projectList => _projectList;
+  // var _pcList = List<ProjectCategoryEntity>();
+  // List<ProjectCategoryEntity> get pcList => _pcList;
+  // var _projectList = List<ProjectEntity>();
+  // List<ProjectEntity> get projectList => _projectList;
+
+  var _projectModelList = List<ProjectModel>();
+  List<ProjectModel> get projectModelList => _projectModelList;
 
   ///*获取项目类别
-  Future getCategory() async {
-    return await HttpManager()
-        .getAsync<List<ProjectCategoryEntity>>(
-            url: Api.PROJECT_CATEGORY,
-            tag: TAG,
-            jsonParse: (json) {
-              if (json != null) {
-                _pcList =
-                    EntityFactory.generateListObj<ProjectCategoryEntity>(json);
-              }
-              return _pcList;
-            })
-        .catchError((e) => LogUtil.v(e.toString()))
-        .whenComplete(() => notifyListeners());
+  Future<List<ProjectModel>> getCategory() async {
+    return await HttpManager().getAsync<List<ProjectModel>>(
+        url: Api.PROJECT_CATEGORY,
+        tag: TAG,
+        jsonParse: (json) {
+          if (json != null) {
+            List<ProjectCategoryEntity> _pcList =
+                EntityFactory.generateListObj<ProjectCategoryEntity>(json);
+            _pcList.forEach((element) {
+              _projectModelList.add(ProjectModel(categoryEntity: element, datas: List<ProjectEntity>()));
+            });
+          }
+          return _projectModelList;
+        });
   }
 
   ///*根据类别id获取项目列表
-  Future loadProjectList(int cid, bool isRefresh) async {
+  Future<List<ProjectEntity>> loadProjectList(ProjectModel projectModel, bool isRefresh) async {
     if (isRefresh) {
       pageNum = 1;
     } else {
       pageNum++;
     }
-    await HttpManager()
-        .getAsync(
-            url: _getListApiUrl(cid),
+    return await HttpManager()
+        .getAsync<List<ProjectEntity>>(
+            url: _getListApiUrl(projectModel.categoryEntity.id),
             tag: TAG,
             jsonParse: (json) {
               if (json != null) {
                 if (isRefresh) {
-                  _projectList.clear();
+                  projectModel.datas?.clear();
                 }
                 PageEntity<ProjectEntity> pe =
                     PageEntity<ProjectEntity>.fromJson(json);
-                _projectList.addAll(pe.datas);
+                projectModel.datas.addAll(pe.datas);
               }
+              return projectModel.datas;
             })
         .catchError((e) {
       LogUtil.v(e.toString());
