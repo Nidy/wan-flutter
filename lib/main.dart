@@ -5,12 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/http/api.dart';
 import 'package:wanflutter/http/http_manager.dart';
-import 'package:wanflutter/modules/accounts_page.dart';
+import 'package:wanflutter/modules/wechat/accounts_page.dart';
 import 'package:wanflutter/modules/home/home_page.dart';
-import 'package:wanflutter/modules/home/provider/home_provider.dart';
 import 'package:wanflutter/modules/mine_page.dart';
 import 'package:wanflutter/modules/project/project_page.dart';
-import 'package:wanflutter/modules/project/provider/project_provider.dart';
 import 'package:wanflutter/setting/app_config.dart';
 import 'package:wanflutter/utils/log_utils.dart';
 
@@ -33,12 +31,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AppConfig>(
           create: (_) => _appConfig,
         ),
-        // ChangeNotifierProvider<HomeProvider>(
-        //   create: (_) => _homeProvider,
-        // ),
-        // ChangeNotifierProvider<ProjectProvider>(
-        //   create: (_) => _projectProvider,
-        // ),
       ],
       child: Consumer<AppConfig>(
         builder: (context, AppConfig appConfig, _) => MaterialApp(

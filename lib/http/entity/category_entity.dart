@@ -1,6 +1,6 @@
 import 'package:wanflutter/generated/json/base/json_convert_content.dart';
 
-class ProjectCategoryEntity with JsonConvert<ProjectCategoryEntity> {
+class CategoryEntity with JsonConvert<CategoryEntity> {
 	List<dynamic> children;
 	int courseId;
 	int id;

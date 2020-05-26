@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wanflutter/generated/l10n.dart';
-import 'package:wanflutter/http/entity/project_category_entity.dart';
 import 'package:wanflutter/modules/project/project_category_widget.dart';
 import 'package:wanflutter/modules/project/provider/project_model.dart';
 import 'package:wanflutter/modules/project/provider/project_provider.dart';
@@ -27,7 +26,7 @@ class _ProjectPageState extends State<ProjectPage>
       _tabs.add(Tab(
           child: Text(
         element.categoryEntity.name,
-        style: AppStyle.smallRegularTextStyle,
+        style: AppStyle.smallRegularTextWhite,
       )));
     });
     return _tabs;
@@ -68,7 +67,7 @@ class _ProjectPageState extends State<ProjectPage>
               ),
               body: EmptyHolder());
         }
-        
+
         return Scaffold(
           body: NestedScrollView(
             headerSliverBuilder:
@@ -90,7 +89,6 @@ class _ProjectPageState extends State<ProjectPage>
                     indicatorPadding: EdgeInsets.only(bottom: 2),
                     indicatorSize: TabBarIndicatorSize.label,
                     labelStyle: AppStyle.smallRegularTextWhite,
-                    unselectedLabelStyle: AppStyle.smallRegularTextWhite,
                   ),
                 )
               ];

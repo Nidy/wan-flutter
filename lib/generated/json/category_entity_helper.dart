@@ -1,6 +1,6 @@
-import 'package:wanflutter/http/entity/project_category_entity.dart';
+import 'package:wanflutter/http/entity/category_entity.dart';
 
-projectCategoryEntityFromJson(ProjectCategoryEntity data, Map<String, dynamic> json) {
+categoryEntityFromJson(CategoryEntity data, Map<String, dynamic> json) {
 	if (json['children'] != null) {
 		data.children = new List<dynamic>();
 		data.children.addAll(json['children']);
@@ -29,7 +29,7 @@ projectCategoryEntityFromJson(ProjectCategoryEntity data, Map<String, dynamic> j
 	return data;
 }
 
-Map<String, dynamic> projectCategoryEntityToJson(ProjectCategoryEntity entity) {
+Map<String, dynamic> categoryEntityToJson(CategoryEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.children != null) {
 		data['children'] =  [];

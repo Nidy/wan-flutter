@@ -9,4 +9,7 @@ class Api {
 
   ///*项目类别
   static const String PROJECT_CATEGORY = "/project/tree/json";
+
+  ///*公众号
+  static const String WECHAT_CATEGORY = "/wxarticle/chapters/json  ";
 }

@@ -1,7 +1,7 @@
 import 'package:wanflutter/generated/json/base/json_convert_content.dart';
 import 'package:wanflutter/http/entity/article_entity.dart';
 import 'package:wanflutter/http/entity/banner_entity.dart';
-import 'package:wanflutter/http/entity/project_category_entity.dart';
+import 'package:wanflutter/http/entity/category_entity.dart';
 import 'package:wanflutter/http/entity/project_entity.dart';
 
 class EntityFactory {
@@ -12,8 +12,8 @@ class EntityFactory {
       return JsonConvert.fromJsonAsT<ArticleEntity>(json) as T;
     } else if (T.toString() == 'BannerEntity') {
       return JsonConvert.fromJsonAsT<BannerEntity>(json) as T;
-    } else if (T.toString() == 'ProjectCategoryEntity') {
-      return JsonConvert.fromJsonAsT<ProjectCategoryEntity>(json) as T;
+    } else if (T.toString() == 'CategoryEntity') {
+      return JsonConvert.fromJsonAsT<CategoryEntity>(json) as T;
     } else if (T.toString() == 'ProjectEntity') {
       return JsonConvert.fromJsonAsT<ProjectEntity>(json) as T;
     } 

@@ -3,27 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wanflutter/http/entity/project_entity.dart';
-import 'package:wanflutter/modules/project/provider/project_model.dart';
-import 'package:wanflutter/modules/project/provider/project_provider.dart';
+import 'package:wanflutter/http/entity/article_entity.dart';
+import 'package:wanflutter/modules/wechat/provider/accounts_model.dart';
+import 'package:wanflutter/modules/wechat/provider/accounts_provider.dart';
 import 'package:wanflutter/router/bootom2top_router.dart';
 import 'package:wanflutter/theme/app_style.dart';
 import 'package:wanflutter/widget/empty_holder.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
 
-class ProjectCategoryWidget extends StatefulWidget {
-  final ProjectModel projectModel;
-  final ProjectProvider provider;
+class AccountsAritcleWidget extends StatefulWidget {
+  final AccountsModel model;
+  final AccountsProvider provider;
 
-  ProjectCategoryWidget(this.projectModel, this.provider);
+  AccountsAritcleWidget(this.model, this.provider);
 
   @override
   _ProjectCategoryState createState() => _ProjectCategoryState();
 }
 
-class _ProjectCategoryState extends State<ProjectCategoryWidget>
+class _ProjectCategoryState extends State<AccountsAritcleWidget>
     with AutomaticKeepAliveClientMixin {
-  var _projectList = List<ProjectEntity>();
+  var _articleList = List<ArticleEntity>();
 
   @override
   void initState() {
@@ -31,30 +31,30 @@ class _ProjectCategoryState extends State<ProjectCategoryWidget>
     loadProjectData();
   }
   void loadProjectData() async {
-    _projectList =
-        await widget.provider.loadProjectList(widget.projectModel, true);
+    _articleList =
+        await widget.provider.loadArticleList(widget.model, true);
   }
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Consumer<ProjectProvider>(
-      builder: (context, provider, child) => _projectList.isEmpty
+    return Consumer<AccountsProvider>(
+      builder: (context, provider, child) => _articleList.isEmpty
           ? EmptyHolder(msg: 'Loading...')
           : SmartRefresher(
               enablePullDown: true,
               enablePullUp: true,
               controller: provider.refreshController,
               onRefresh: () async {
-                _projectList =
-                    await provider.loadProjectList(widget.projectModel, true);
+                _articleList =
+                    await provider.loadArticleList(widget.model, true);
               },
               onLoading: () async {
-                _projectList =
-                    await provider.loadProjectList(widget.projectModel, false);
+                _articleList =
+                    await provider.loadArticleList(widget.model, false);
               },
               child: ListView.builder(
                   itemBuilder: (BuildContext ctx, int index) {
-                    var item = _projectList[index];
+                    var item = _articleList[index];
                     return GestureDetector(
                       onTap: () => Navigator.push(
                           ctx,
@@ -66,14 +66,14 @@ class _ProjectCategoryState extends State<ProjectCategoryWidget>
                       child: _projectItem(item),
                     );
                   },
-                  itemCount: widget.projectModel.datas.isEmpty
+                  itemCount: widget.model.datas.isEmpty
                       ? 0
-                      : widget.projectModel.datas.length),
+                      : widget.model.datas.length),
             ),
     );
   }
 
-  Widget _projectItem(ProjectEntity item) {
+  Widget _projectItem(ArticleEntity item) {
     return SizedBox(
       child: Card(
         margin: EdgeInsets.all(8),
@@ -89,12 +89,6 @@ class _ProjectCategoryState extends State<ProjectCategoryWidget>
                 item.title,
                 textDirection: TextDirection.ltr,
                 style: AppStyle.defaultBoldTextStyle,
-              ),
-              SizedBox(height: 4),
-              Text(
-                item.desc,
-                textDirection: TextDirection.ltr,
-                style: AppStyle.smallRegularTextStyle,
               ),
               SizedBox(height: 4),
               Row(
@@ -120,7 +114,7 @@ class _ProjectCategoryState extends State<ProjectCategoryWidget>
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Icon(Icons.adb, color: Colors.lightGreen, size: 14),
+                  Icon(Icons.turned_in, color: Colors.lightGreen, size: 14),
                   SizedBox(width: 4),
                   Text("${item.superChapterName}/${item.chapterName}",
                       style:
