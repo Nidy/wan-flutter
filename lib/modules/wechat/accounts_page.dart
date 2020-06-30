@@ -73,7 +73,7 @@ class _AccountsPageState extends State<AccountsPage>
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
                   SliverAppBar(
-                    title: Text(S.of(context).tabProject,),
+                    title: Text(S.of(context).tabAccounts,),
                     centerTitle: true,
                     floating: false,
                     pinned: true,

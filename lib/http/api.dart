@@ -11,5 +11,8 @@ class Api {
   static const String PROJECT_CATEGORY = "/project/tree/json";
 
   ///*公众号
-  static const String WECHAT_CATEGORY = "/wxarticle/chapters/json  ";
+  static const String WECHAT_CATEGORY = "/wxarticle/chapters/json";
+
+  ///*知识体系分类
+  static const String TREE_CATEGORY = "/tree/json";
 }

@@ -63,6 +63,15 @@ class S {
     );
   }
 
+  String get tabSystem {
+    return Intl.message(
+      'System',
+      name: 'tabSystem',
+      desc: '',
+      args: [],
+    );
+  }
+
   String get tabMine {
     return Intl.message(
       'Mine',

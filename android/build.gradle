@@ -14,19 +14,19 @@ buildscript {
 allprojects {
     repositories {
         repositories {
-        maven { url 'http://download.flutter.io' }
-        maven {
-            url 'https://maven.aliyun.com/repository/jcenter'
+            maven { url 'http://download.flutter.io' }
+            maven {
+                url 'https://maven.aliyun.com/repository/jcenter'
+            }
+            maven {
+                url 'https://maven.aliyun.com/repository/central'
+            }
+            maven {
+                url 'https://maven.aliyun.com/repository/google'
+            }
+            jcenter { url "http://jcenter.bintray.com/"}
+            google()
         }
-        maven {
-            url 'https://maven.aliyun.com/repository/central'
-        }
-        maven {
-            url 'https://maven.aliyun.com/repository/google'
-        }
-        jcenter { url "http://jcenter.bintray.com/"}
-        google()
-    }
     }
 }
 

@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabAccounts" : MessageLookupByLibrary.simpleMessage("Accounts"),
     "tabHome" : MessageLookupByLibrary.simpleMessage("Blog"),
     "tabMine" : MessageLookupByLibrary.simpleMessage("Mine"),
-    "tabProject" : MessageLookupByLibrary.simpleMessage("Project")
+    "tabProject" : MessageLookupByLibrary.simpleMessage("Project"),
+    "tabSystem" : MessageLookupByLibrary.simpleMessage("System")
   };
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/http/api.dart';
 import 'package:wanflutter/http/http_manager.dart';
+import 'package:wanflutter/modules/system/knowledge_sysytem.dart';
 import 'package:wanflutter/modules/wechat/accounts_page.dart';
 import 'package:wanflutter/modules/home/home_page.dart';
 import 'package:wanflutter/modules/mine_page.dart';
@@ -59,6 +60,7 @@ class MyHomePage extends StatefulWidget {
   final homePage = HomePage();
   final projectPage = ProjectPage();
   final accountPage = AccountsPage();
+  final systemPage = KnowledgeSystemPage();
   final minePage = MinePage();
 
   MyHomePage({Key key, this.appConfig}) : super(key: key);
@@ -82,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ..add(widget.homePage)
       ..add(widget.projectPage)
       ..add(widget.accountPage)
+      ..add(widget.systemPage)
       ..add(widget.minePage);
     _pageController = PageController(initialPage: _currentIndex);
   }
@@ -136,6 +139,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           title: Text(
             S.of(context).tabAccounts,
+          ),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.camera,
+          ),
+          title: Text(
+            S.of(context).tabSystem,
           ),
         ),
         BottomNavigationBarItem(

@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tabAccounts" : MessageLookupByLibrary.simpleMessage("公众号"),
     "tabHome" : MessageLookupByLibrary.simpleMessage("文章"),
     "tabMine" : MessageLookupByLibrary.simpleMessage("我的"),
-    "tabProject" : MessageLookupByLibrary.simpleMessage("项目")
+    "tabProject" : MessageLookupByLibrary.simpleMessage("项目"),
+    "tabSystem" : MessageLookupByLibrary.simpleMessage("体系")
   };
 }
