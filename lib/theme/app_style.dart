@@ -57,4 +57,10 @@ class AppStyle {
     fontSize: DefaultTextSize,
     color: AppColor.white,
   );
+
+  //* 中等文字样式，18
+  static TextStyle mediumRegularTextStyleWhite = TextStyle(
+    fontSize: MediumTextSize,
+    color: AppColor.white,
+  );
 }

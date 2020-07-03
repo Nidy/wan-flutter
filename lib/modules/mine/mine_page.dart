@@ -39,7 +39,7 @@ class _MinePageState extends State<MinePage>
                   title: GestureDetector(
                     child: Text(
                       lp.needLogin ?? true ? '去登录' : lp.user?.nickname,
-                      style: AppStyle.defaultRegularTextWhite,
+                      style: AppStyle.mediumRegularTextStyleWhite,
                     ),
                     onTap: () => lp.needLogin ?? true
                         ? Navigator.push(context,

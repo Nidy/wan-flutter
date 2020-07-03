@@ -193,11 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _currentIndex = index;
           if (_pageController.hasClients) {
-            _pageController.animateToPage(
-              _currentIndex,
-              duration: Duration(milliseconds: 300),
-              curve: Curves.linear,
-            );
+            _pageController.jumpToPage(_currentIndex);
           }
         });
       },
