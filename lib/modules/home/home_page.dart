@@ -11,12 +11,12 @@ import 'package:wanflutter/widget/banner_widget.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   var _hp = HomeProvider();
 
   @override
