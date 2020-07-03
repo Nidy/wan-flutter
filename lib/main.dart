@@ -5,32 +5,36 @@ import 'package:provider/provider.dart';
 import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/http/api.dart';
 import 'package:wanflutter/http/http_manager.dart';
+import 'package:wanflutter/modules/login/provider/login_provider.dart';
 import 'package:wanflutter/modules/system/knowledge_sysytem.dart';
 import 'package:wanflutter/modules/wechat/accounts_page.dart';
 import 'package:wanflutter/modules/home/home_page.dart';
-import 'package:wanflutter/modules/mine_page.dart';
+import 'package:wanflutter/modules/mine/mine_page.dart';
 import 'package:wanflutter/modules/project/project_page.dart';
 import 'package:wanflutter/setting/app_config.dart';
 import 'package:wanflutter/utils/log_utils.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   HttpManager().init(baseUrl: Api.BASE_URL);
   LogUtil.init(isDebug: true);
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   final _appConfig = AppConfig();
-  // final _homeProvider = HomeProvider();
-  // final _projectProvider = ProjectProvider();
+  final _loginProvider = LoginProvider();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AppConfig>(
           create: (_) => _appConfig,
+        ),
+        ChangeNotifierProvider<LoginProvider>(
+          create: (_) => _loginProvider,
         ),
       ],
       child: Consumer<AppConfig>(

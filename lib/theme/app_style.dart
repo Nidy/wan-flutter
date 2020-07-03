@@ -52,4 +52,9 @@ class AppStyle {
     fontSize: MiniTextSize,
     color: AppColor.white,
   );
+  //* mini号文字样式，regular + 16
+  static TextStyle defaultRegularTextWhite = TextStyle(
+    fontSize: DefaultTextSize,
+    color: AppColor.white,
+  );
 }

@@ -1,8 +1,11 @@
 import 'dart:core';
+import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:wanflutter/http/api.dart';
 import 'package:wanflutter/http/http_error.dart';
 import 'package:wanflutter/utils/log_utils.dart';
 
@@ -25,7 +28,7 @@ typedef T JsonParse<T>(dynamic data);
 /// @author Cheney
 class HttpManager {
   ///同一个CancelToken可以用于多个请求，当一个CancelToken取消时，所有使用该CancelToken的请求都会被取消，一个页面对应一个CancelToken。
-  Map<String, CancelToken> _cancelTokens =  Map<String, CancelToken>();
+  Map<String, CancelToken> _cancelTokens = Map<String, CancelToken>();
 
   ///超时时间
   static const int CONNECT_TIMEOUT = 30000;
@@ -70,12 +73,14 @@ class HttpManager {
       {String baseUrl,
       int connectTimeout,
       int receiveTimeout,
-      List<Interceptor> interceptors}) {
+      List<Interceptor> interceptors}) async {
     _client.options = _client.options.merge(
       baseUrl: baseUrl,
       connectTimeout: connectTimeout,
       receiveTimeout: receiveTimeout,
     );
+    Api.cookieJar
+        .then((value) => _client.interceptors.add(CookieManager(value)));
     if (interceptors != null && interceptors.isNotEmpty) {
       _client.interceptors..addAll(interceptors);
     }
@@ -246,7 +251,7 @@ class HttpManager {
         await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       if (errorCallback != null) {
-        errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
+        errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，��稍后重试！"));
       }
       LogUtil.v("请求网络异常，请稍后重试！");
       return;
@@ -391,6 +396,7 @@ class HttpManager {
     Options options,
     JsonParse<T> jsonParse,
     @required String tag,
+    bool needSession,
   }) async {
     return _requestAsync(
       url: url,
@@ -416,6 +422,7 @@ class HttpManager {
     Options options,
     JsonParse<T> jsonParse,
     @required String tag,
+    bool needSession,
   }) async {
     return _requestAsync(
       url: url,
@@ -443,6 +450,7 @@ class HttpManager {
     Options options,
     JsonParse<T> jsonParse,
     @required String tag,
+    bool needSession = false,
   }) async {
     //检查网络是否连接
     ConnectivityResult connectivityResult =
@@ -458,10 +466,18 @@ class HttpManager {
 
     options?.method = method;
 
-    options = options ??
-        Options(
-          method: method,
-        );
+    options = options ?? Options(method: method);
+    if (needSession) {
+      await Api.cookieJar.then((cookie) {
+        List<Cookie> cookieList =
+            cookie.loadForRequest(Uri.dataFromString(Api.BASE_URL));
+        if (cookieList != null && cookieList.isNotEmpty) {
+          cookieList.map((cookie) {
+            options.headers[cookie.name] = cookie.value;
+          });
+        }
+      });
+    }
 
     url = _restfulUrl(url, params);
 
@@ -479,7 +495,16 @@ class HttpManager {
           options: options,
           cancelToken: cancelToken);
       int statusCode = response.data["errorCode"];
+      // LogUtil.v("url: ${response.realUri.path}");
       if (statusCode == 0) {
+        if (response.headers.map['set-cookie'] != null) {
+          var cookieList = new List<Cookie>();
+          cookieList.addAll(response.headers.map['set-cookie']
+              .map((value) => Cookie.fromSetCookieValue(value))
+              .toList());
+          Api.cookieJar.then((value) => value.saveFromResponse(
+              Uri.dataFromString(Api.BASE_URL), cookieList));
+        }
         //成功
         LogUtil.v("response: ${response.data["data"]}");
         if (jsonParse != null) {
@@ -507,9 +532,9 @@ class HttpManager {
   ///
   ///[url] 下载地址
   ///[savePath]  文件保存路径
-  ///[onReceiveProgress]  文件保存路径
+  ///[onReceiveProgress]  文件保��路径
   ///[data] post 请求参数
-  ///[params] url请求参数支持restful
+  ///[params] url请求���数支持restful
   ///[options] 请求配置
   ///[tag] 请求统一标识，用于取消网络请求
   Future<Response> downloadAsync({

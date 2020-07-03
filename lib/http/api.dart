@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:wanflutter/utils/log_utils.dart';
+
 class Api {
   static const String BASE_URL = "https://www.wanandroid.com";
 
@@ -15,4 +21,15 @@ class Api {
 
   ///*知识体系分类
   static const String TREE_CATEGORY = "/tree/json";
+
+  static PersistCookieJar _cookieJar;
+  static Future<PersistCookieJar> get cookieJar async {
+    if (_cookieJar == null) {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath = appDocDir.path;
+      LogUtil.v('获取的文件系统目录 appDocPath： ' + appDocPath);
+      _cookieJar = new PersistCookieJar(dir: appDocPath);
+    }
+    return _cookieJar;
+  }
 }

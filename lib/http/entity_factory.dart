@@ -3,6 +3,7 @@ import 'package:wanflutter/http/entity/article_entity.dart';
 import 'package:wanflutter/http/entity/banner_entity.dart';
 import 'package:wanflutter/http/entity/category_entity.dart';
 import 'package:wanflutter/http/entity/project_entity.dart';
+import 'package:wanflutter/http/entity/user_entity.dart';
 
 class EntityFactory {
   static T generateObj<T>(json) {
@@ -16,7 +17,9 @@ class EntityFactory {
       return JsonConvert.fromJsonAsT<CategoryEntity>(json) as T;
     } else if (T.toString() == 'ProjectEntity') {
       return JsonConvert.fromJsonAsT<ProjectEntity>(json) as T;
-    } 
+    } else if (T.toString() == 'UserEntity') {
+      return JsonConvert.fromJsonAsT<UserEntity>(json) as T;
+    }
     else {
       return json as T;
     }
