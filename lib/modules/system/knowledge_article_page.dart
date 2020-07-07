@@ -63,6 +63,7 @@ class _KnowledgeArticlePageState extends State<KnowledgeArticlePage> {
                               child: CommonWebview(
                             title: item.title,
                             url: item.link,
+                            id: item.id,
                           ))),
                       child: _projectItem(item),
                     );

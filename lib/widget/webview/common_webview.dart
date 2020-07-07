@@ -1,25 +1,34 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:wanflutter/modules/login/login_page.dart';
+import 'package:wanflutter/modules/login/provider/login_provider.dart';
 import 'package:wanflutter/widget/webview/web_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CommonWebview extends StatelessWidget {
   final String title;
   final String url;
+  final int id;
 
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   final _webModel = WebProvider();
 
-  CommonWebview({Key key, @required this.title, this.url}) : super(key: key);
+  CommonWebview({
+    Key key,
+    @required this.title,
+    @required this.url,
+    @required this.id,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (_) => _webModel,
-        child: Consumer(
-          builder: (context, WebProvider wm, _) => Scaffold(
+        child: Consumer2(
+          builder: (context, LoginProvider lp, WebProvider wm, _) => Scaffold(
             appBar: AppBar(
               leading: IconButton(
                   icon: Icon(
@@ -27,6 +36,24 @@ class CommonWebview extends StatelessWidget {
                     color: Colors.white,
                   ),
                   onPressed: () => Navigator.of(context).pop()),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(
+                      lp.checkIfMarked(id) ? Icons.star : Icons.star_border,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      if (lp.needLogin) {
+                        Fluttertoast.showToast(msg: '登录后才能使用收藏功能');
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return LoginPage();
+                        }));
+                      } else {
+                        lp.markArtical(id);
+                      }
+                    }),
+              ],
               title: Text(title,
                   style: TextStyle(color: (Colors.white), fontSize: 16.0)),
               centerTitle: true,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanflutter/generated/l10n.dart';
@@ -120,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
               DateTime.now().difference(_lastPressedAt) >
                   Duration(seconds: 1)) {
             _lastPressedAt = DateTime.now();
-            EasyLoading.showToast('再次点击退出app');
+            Fluttertoast.showToast(msg: '再次点击退出app');
             return false;
           }
           return true;

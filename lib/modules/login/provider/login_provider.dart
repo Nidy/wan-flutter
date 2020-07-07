@@ -24,7 +24,7 @@ class LoginProvider with ChangeNotifier {
 
   var pageNum = 0;
 
-  var _refreshController = RefreshController(initialRefresh: false);
+  var _refreshController = RefreshController(initialRefresh: true);
   RefreshController get refreshController => _refreshController;
   var _articleList = List<ArticleEntity>();
   List<ArticleEntity> get articleList => _articleList;
@@ -37,7 +37,7 @@ class LoginProvider with ChangeNotifier {
     await SharedPreferences.getInstance().then((sp) {
       _needLogin = sp.getBool(Constants.NEED_LOGIN) ?? true;
       _user = EntityFactory.generateObj<UserEntity>(
-          jsonDecode(sp.getString(Constants.USER_PROFILE)));
+          jsonDecode(sp.getString(Constants.USER_PROFILE) ?? null));
     });
   }
 
@@ -54,6 +54,7 @@ class LoginProvider with ChangeNotifier {
         Fluttertoast.showToast(msg: '登录成功');
         _user = EntityFactory.generateObj<UserEntity>(json);
         SharedPreferences.getInstance().then((sp) {
+          _needLogin = false;
           sp.setBool(Constants.NEED_LOGIN, false);
           sp.setString(Constants.USER_PROFILE, jsonEncode(_user.toJson()));
           notifyListeners();
@@ -100,13 +101,37 @@ class LoginProvider with ChangeNotifier {
     });
   }
 
-  Future deleteFavActical(int id) async {
+  //收藏文章
+  Future markArtical(int id) async {
+    return await HttpManager()
+        .postAsync(url: _getAddMarkUrl(id), tag: TAG)
+        .then((value) {
+      Fluttertoast.showToast(msg: '收藏成功');
+      notifyListeners();
+    }).catchError((error) {
+      if (error is HttpError) {
+        Fluttertoast.showToast(msg: error.message);
+        notifyListeners();
+      }
+    });
+  }
+
+  Future removeMarkActical(int id) async {
     return await HttpManager()
         .postAsync(url: _deleteFavActicalApi(id), needSession: true, tag: TAG);
   }
 
+  //是否收藏
+  bool checkIfMarked(int id) {
+    return !_needLogin && _user != null && _user.collectIds.contains(id);
+  }
+
+  String _getAddMarkUrl(int id) {
+    return '/lg/collect/$id/json';
+  }
+
   String _getActialListApi() {
-    return "/article/list/$pageNum/json";
+    return "/lg/collect/list/$pageNum/json";
   }
 
   String _deleteFavActicalApi(int id) {

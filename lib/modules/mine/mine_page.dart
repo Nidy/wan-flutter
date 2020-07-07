@@ -24,7 +24,6 @@ class _MinePageState extends State<MinePage>
     return Consumer<LoginProvider>(builder: (context, LoginProvider lp, _) {
       if (_lp == null) {
         _lp = lp;
-        lp.getFavArticalList(isRefresh: true);
       }
       return Scaffold(
         body: NestedScrollView(
@@ -32,7 +31,7 @@ class _MinePageState extends State<MinePage>
             return <Widget>[
               SliverAppBar(
                 expandedHeight: 300,
-                floating: true,
+                floating: false,
                 pinned: true,
                 snap: false,
                 flexibleSpace: FlexibleSpaceBar(
@@ -68,11 +67,11 @@ class _MinePageState extends State<MinePage>
               await lp.getFavArticalList(isRefresh: false);
             },
             child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, i) =>
-                  _itemArticle(context, lp.articleList[i]),
-              itemCount: lp.articleList.length),
-        ),
+                shrinkWrap: true,
+                itemBuilder: (context, i) =>
+                    _itemArticle(context, lp.articleList[i]),
+                itemCount: lp.articleList.length),
+          ),
         ),
       );
     });
@@ -95,7 +94,7 @@ class _MinePageState extends State<MinePage>
         if (direction == DismissDirection.endToStart) {
           var isDismiss = await _confirmDelete(context);
           if (isDismiss) {
-            _lp.deleteFavActical(ae.id).then((value) => setState(() {
+            _lp.removeMarkActical(ae.id).then((value) => setState(() {
                   _lp.articleList.remove(ae);
                 }));
           }
@@ -110,6 +109,7 @@ class _MinePageState extends State<MinePage>
                 child: CommonWebview(
               title: ae.title,
               url: ae.link,
+              id: ae.id,
             ))),
         child: SizedBox(
           child: Card(
@@ -132,31 +132,13 @@ class _MinePageState extends State<MinePage>
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Text(
-                          StringUtils.isNotNullOrEmpty(ae.author)
-                              ? "@${ae.author}"
-                              : "@${ae.shareUser}",
-                          style: TextStyle(
-                              color: (Colors.blueGrey), fontSize: 14.0)),
-                      SizedBox(width: 8),
                       Icon(Icons.access_time, color: Colors.blueGrey, size: 14),
                       SizedBox(width: 4),
                       Text(
-                        ae.niceShareDate,
+                        ae.niceDate,
                         style:
                             TextStyle(color: (Colors.blueGrey), fontSize: 14.0),
                       ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(Icons.turned_in, color: Colors.lightGreen, size: 14),
-                      SizedBox(width: 4),
-                      Text("${ae.superChapterName}/${ae.chapterName}",
-                          style: TextStyle(
-                              color: (Colors.blueGrey), fontSize: 14.0)),
                     ],
                   ),
                 ],

@@ -73,24 +73,26 @@ class _HomePageState extends State<HomePage>
       pinned: false,
       floating: false,
       forceElevated: true,
-      expandedHeight: 300,
+      expandedHeight: 200,
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.pin, //视差效果,
         background: hp.bannerCached
             ? CustomBanner(
                 hp.bannerImages,
-                height: 300,
+                height: 200,
                 onTap: (i) => Navigator.push(
                     context,
                     Bottom2TopRouter(
                         child: CommonWebview(
                       title: hp.banners[i].title,
                       url: hp.banners[i].url,
+                      id: hp.banners[i].id,
                     ))),
               )
             : Image.asset(
                 "assets/images/home_banner.png",
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
+                height: 200,
               ),
       ),
     );
@@ -104,6 +106,7 @@ class _HomePageState extends State<HomePage>
               child: CommonWebview(
             title: ae.title,
             url: ae.link,
+            id: ae.id,
           ))),
       child: SizedBox(
         child: Card(

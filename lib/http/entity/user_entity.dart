@@ -3,7 +3,7 @@ import 'package:wanflutter/generated/json/base/json_convert_content.dart';
 class UserEntity with JsonConvert<UserEntity> {
 	bool admin;
 	List<dynamic> chapterTops;
-	List<dynamic> collectIds;
+	List<int> collectIds;
 	String email;
 	String icon;
 	int id;

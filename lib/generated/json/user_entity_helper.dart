@@ -9,8 +9,7 @@ userEntityFromJson(UserEntity data, Map<String, dynamic> json) {
 		data.chapterTops.addAll(json['chapterTops']);
 	}
 	if (json['collectIds'] != null) {
-		data.collectIds = new List<dynamic>();
-		data.collectIds.addAll(json['collectIds']);
+		data.collectIds = json['collectIds']?.map((v) => v?.toInt())?.toList()?.cast<int>();
 	}
 	if (json['email'] != null) {
 		data.email = json['email']?.toString();
@@ -48,9 +47,7 @@ Map<String, dynamic> userEntityToJson(UserEntity entity) {
 	if (entity.chapterTops != null) {
 		data['chapterTops'] =  [];
 	}
-	if (entity.collectIds != null) {
-		data['collectIds'] =  [];
-	}
+	data['collectIds'] = entity.collectIds;
 	data['email'] = entity.email;
 	data['icon'] = entity.icon;
 	data['id'] = entity.id;
