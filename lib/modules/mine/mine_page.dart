@@ -1,4 +1,3 @@
-import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -24,6 +23,9 @@ class _MinePageState extends State<MinePage>
     return Consumer<LoginProvider>(builder: (context, LoginProvider lp, _) {
       if (_lp == null) {
         _lp = lp;
+        if (lp.canLoadFav) {
+          lp.getFavArticalList(isRefresh: true);
+        }
       }
       return Scaffold(
         body: NestedScrollView(
@@ -45,7 +47,7 @@ class _MinePageState extends State<MinePage>
                             MaterialPageRoute(builder: (context) {
                             return LoginPage();
                           }))
-                        : null,
+                        : showLoginOutDialog(context),
                   ),
                   centerTitle: true,
                   background: Image.asset(
@@ -94,9 +96,11 @@ class _MinePageState extends State<MinePage>
         if (direction == DismissDirection.endToStart) {
           var isDismiss = await _confirmDelete(context);
           if (isDismiss) {
-            _lp.removeMarkActical(ae.id).then((value) => setState(() {
-                  _lp.articleList.remove(ae);
-                }));
+            _lp.removeMarkActical(id: ae.originId).then(
+                  (value) => setState(() {
+                    _lp.articleList.remove(ae);
+                  }),
+                );
           }
           return isDismiss;
         }
@@ -164,13 +168,34 @@ class _MinePageState extends State<MinePage>
               FlatButton(
                 child: Text("删除"),
                 onPressed: () {
-                  // ... 执行删除操作
                   Navigator.of(context).pop(true); //关闭对话框
                 },
               ),
             ],
           );
         });
+  }
+
+  Future<bool> showLoginOutDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: Text("确定退出登录吗?"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("取消"),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                FlatButton(
+                  child: Text("退出"),
+                  onPressed: () {
+                    // 执行删除操作
+                    _lp.doLoginout();
+                    Navigator.of(context).pop(true);
+                  },
+                ),
+              ],
+            ));
   }
 
   @override

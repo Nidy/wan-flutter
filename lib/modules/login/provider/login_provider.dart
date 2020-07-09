@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wanflutter/http/api.dart';
 import 'package:wanflutter/http/entity/article_entity.dart';
 import 'package:wanflutter/http/entity/page_entity.dart';
 import 'package:wanflutter/http/entity/user_entity.dart';
@@ -24,7 +25,10 @@ class LoginProvider with ChangeNotifier {
 
   var pageNum = 0;
 
-  var _refreshController = RefreshController(initialRefresh: true);
+  bool _canLoadFav = false;
+  bool get canLoadFav => _canLoadFav;
+
+  var _refreshController = RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
   var _articleList = List<ArticleEntity>();
   List<ArticleEntity> get articleList => _articleList;
@@ -36,6 +40,7 @@ class LoginProvider with ChangeNotifier {
   _initData() async {
     await SharedPreferences.getInstance().then((sp) {
       _needLogin = sp.getBool(Constants.NEED_LOGIN) ?? true;
+      _canLoadFav = !_needLogin;
       _user = EntityFactory.generateObj<UserEntity>(
           jsonDecode(sp.getString(Constants.USER_PROFILE) ?? null));
     });
@@ -55,6 +60,7 @@ class LoginProvider with ChangeNotifier {
         _user = EntityFactory.generateObj<UserEntity>(json);
         SharedPreferences.getInstance().then((sp) {
           _needLogin = false;
+          _canLoadFav = true;
           sp.setBool(Constants.NEED_LOGIN, false);
           sp.setString(Constants.USER_PROFILE, jsonEncode(_user.toJson()));
           notifyListeners();
@@ -65,6 +71,22 @@ class LoginProvider with ChangeNotifier {
       if (error is HttpError) {
         Fluttertoast.showToast(msg: error.message);
       }
+    });
+  }
+
+  Future doLoginout() async {
+    await HttpManager()
+        .getAsync(url: '/user/logout/json', tag: TAG)
+        .then((value) {
+      _articleList?.clear();
+      Api.cookieJar.then((cookie) => cookie.deleteAll());
+      SharedPreferences.getInstance().then((sp) {
+        _needLogin = true;
+        _canLoadFav = false;
+        sp.setBool(Constants.NEED_LOGIN, true);
+        sp.setString(Constants.USER_PROFILE, '');
+        notifyListeners();
+      });
     });
   }
 
@@ -87,12 +109,13 @@ class LoginProvider with ChangeNotifier {
                   _articleList.clear();
                 }
                 _articleList.addAll(en.datas);
-                if (pageNum == en.pageCount) {
+                if (pageNum == en.pageCount - 1) {
                   _refreshController.resetNoData();
                 }
                 notifyListeners();
               }
             })
+        .then((value) => _canLoadFav = false)
         .catchError((e) {
       LogUtil.v(e.toString());
     }).whenComplete(() {
@@ -116,9 +139,10 @@ class LoginProvider with ChangeNotifier {
     });
   }
 
-  Future removeMarkActical(int id) async {
+  Future removeMarkActical({@required int id}) async {
     return await HttpManager()
-        .postAsync(url: _deleteFavActicalApi(id), needSession: true, tag: TAG);
+        .postAsync(url: _deleteFavActicalApi(id), needSession: true, tag: TAG)
+        .then((value) => Fluttertoast.showToast(msg: '已取消收藏'));
   }
 
   //是否收藏
