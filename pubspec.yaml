@@ -35,7 +35,6 @@ dependencies:
   provider: 4.1.1
   shared_preferences: ^0.5.7+2
 
-  sqflite_sqlcipher: ^1.0.0+6
   pull_to_refresh: ^1.5.7
   basic_utils: ^2.5.3
   webview_flutter: ^0.3.21

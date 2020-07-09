@@ -8,12 +8,8 @@ import 'intl/messages_all.dart';
 // Made by Localizely
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
-
 class S {
   S();
-  
-  static S current;
   
   static const AppLocalizationDelegate delegate =
     AppLocalizationDelegate();
@@ -23,9 +19,7 @@ class S {
     final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      S.current = S();
-      
-      return S.current;
+      return S();
     });
   } 
 
@@ -33,7 +27,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `WanFlutter`
   String get appName {
     return Intl.message(
       'WanFlutter',
@@ -43,7 +36,6 @@ class S {
     );
   }
 
-  /// `Blog`
   String get tabHome {
     return Intl.message(
       'Blog',
@@ -53,7 +45,6 @@ class S {
     );
   }
 
-  /// `Project`
   String get tabProject {
     return Intl.message(
       'Project',
@@ -63,7 +54,6 @@ class S {
     );
   }
 
-  /// `Accounts`
   String get tabAccounts {
     return Intl.message(
       'Accounts',
@@ -73,7 +63,6 @@ class S {
     );
   }
 
-  /// `System`
   String get tabSystem {
     return Intl.message(
       'System',
@@ -83,7 +72,6 @@ class S {
     );
   }
 
-  /// `Mine`
   String get tabMine {
     return Intl.message(
       'Mine',
