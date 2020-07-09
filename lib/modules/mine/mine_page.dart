@@ -6,6 +6,7 @@ import 'package:wanflutter/modules/login/login_page.dart';
 import 'package:wanflutter/modules/login/provider/login_provider.dart';
 import 'package:wanflutter/router/bootom2top_router.dart';
 import 'package:wanflutter/theme/app_style.dart';
+import 'package:wanflutter/widget/empty_holder.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
 
 class MinePage extends StatefulWidget {
@@ -23,9 +24,9 @@ class _MinePageState extends State<MinePage>
     return Consumer<LoginProvider>(builder: (context, LoginProvider lp, _) {
       if (_lp == null) {
         _lp = lp;
-        if (lp.canLoadFav) {
-          lp.getFavArticalList(isRefresh: true);
-        }
+      }
+      if (!lp.needLogin && lp.canLoadFav) {
+        lp.getFavArticalList(isRefresh: true);
       }
       return Scaffold(
         body: NestedScrollView(
@@ -58,22 +59,27 @@ class _MinePageState extends State<MinePage>
               )
             ];
           },
-          body: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
-            controller: lp.refreshController,
-            onRefresh: () async {
-              await lp.getFavArticalList();
-            },
-            onLoading: () async {
-              await lp.getFavArticalList(isRefresh: false);
-            },
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, i) =>
-                    _itemArticle(context, lp.articleList[i]),
-                itemCount: lp.articleList.length),
-          ),
+          body: lp.needLogin ?? true
+              ? Center(
+                  child: EmptyHolder(
+                  msg: '登录后可查看收藏的文章',
+                ))
+              : SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: lp.refreshController,
+                  onRefresh: () async {
+                    await lp.getFavArticalList();
+                  },
+                  onLoading: () async {
+                    await lp.getFavArticalList(isRefresh: false);
+                  },
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (context, i) =>
+                          _itemArticle(context, lp.articleList[i]),
+                      itemCount: lp.articleList.length),
+                ),
         ),
       );
     });
