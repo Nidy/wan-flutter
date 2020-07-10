@@ -63,6 +63,7 @@ class _ProjectCategoryState extends State<ProjectCategoryWidget>
                             title: item.title,
                             url: item.link,
                             id: item.id,
+                            collect: item.collect,
                           ))),
                       child: _projectItem(item),
                     );

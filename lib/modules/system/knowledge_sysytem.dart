@@ -36,7 +36,7 @@ class _KnowledgeSystemPage extends State<KnowledgeSystemPage>
         if (provider.systemModel.categorys == null || provider.systemModel.categorys.isEmpty) {
           return Scaffold(
               appBar: AppBar(
-                title: Text(S.of(context).tabProject),
+                title: Text(S.of(context).tabSystem),
                 centerTitle: true,
               ),
               body: EmptyHolder(msg: 'Loading...'));

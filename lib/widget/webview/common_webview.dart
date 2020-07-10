@@ -11,6 +11,8 @@ class CommonWebview extends StatelessWidget {
   final String title;
   final String url;
   final int id;
+  final bool collect;
+  final bool showCollect;
 
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
@@ -21,7 +23,11 @@ class CommonWebview extends StatelessWidget {
     @required this.title,
     @required this.url,
     @required this.id,
-  }) : super(key: key);
+    this.collect,
+    this.showCollect = true,
+  }) : super(key: key) {
+    _webModel.setCollect(collect);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,22 +43,33 @@ class CommonWebview extends StatelessWidget {
                   ),
                   onPressed: () => Navigator.of(context).pop()),
               actions: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      lp.checkIfMarked(id) ? Icons.star : Icons.star_border,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      if (lp.needLogin) {
-                        Fluttertoast.showToast(msg: '登录后才能使用收藏功能');
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return LoginPage();
-                        }));
-                      } else {
-                        lp.markArtical(id);
-                      }
-                    }),
+                if (showCollect)
+                  IconButton(
+                      icon: Icon(
+                        _webModel.isCollect
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        if (lp.needLogin) {
+                          Fluttertoast.showToast(msg: '登录后才能使用收藏功能');
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return LoginPage();
+                          }));
+                        } else {
+                          if (collect) {
+                            lp.removeMarkActical(id: id).then((value) {
+                              _webModel.setCollect(false);
+                            });
+                          } else {
+                            lp
+                                .markArtical(id)
+                                .then((value) => _webModel.setCollect(true));
+                          }
+                        }
+                      }),
               ],
               title: Text(title,
                   style: TextStyle(color: (Colors.white), fontSize: 16.0)),

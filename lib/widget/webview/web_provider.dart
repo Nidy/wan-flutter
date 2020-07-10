@@ -7,4 +7,10 @@ class WebProvider with ChangeNotifier {
     _isLoading = state;
     notifyListeners();
   }
+
+  bool _isCollect = false;
+  bool get isCollect => _isCollect;
+  void setCollect(bool state) {
+    _isCollect = state;
+  }
 }

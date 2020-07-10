@@ -120,6 +120,7 @@ class _MinePageState extends State<MinePage>
               title: ae.title,
               url: ae.link,
               id: ae.id,
+              collect: ae.collect,
             ))),
         child: SizedBox(
           child: Card(

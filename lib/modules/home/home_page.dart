@@ -1,9 +1,11 @@
 import 'package:basic_utils/basic_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/http/entity/article_entity.dart';
+import 'package:wanflutter/modules/common/search_artical_page.dart';
 import 'package:wanflutter/modules/home/provider/home_provider.dart';
 import 'package:wanflutter/router/bootom2top_router.dart';
 import 'package:wanflutter/theme/app_style.dart';
@@ -39,7 +41,10 @@ class _HomePageState extends State<HomePage>
             actions: <Widget>[
               IconButton(
                   icon: Icon(Icons.search, color: Colors.white),
-                  onPressed: null)
+                  onPressed: () => Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                        return SearchArticalPage();
+                      })))
             ],
           ),
           body: SmartRefresher(
@@ -87,6 +92,7 @@ class _HomePageState extends State<HomePage>
                       title: hp.banners[i].title,
                       url: hp.banners[i].url,
                       id: hp.banners[i].id,
+                      showCollect: false,
                     ))),
               )
             : Image.asset(
@@ -107,6 +113,7 @@ class _HomePageState extends State<HomePage>
             title: ae.title,
             url: ae.link,
             id: ae.id,
+            collect: ae.collect,
           ))),
       child: SizedBox(
         child: Card(

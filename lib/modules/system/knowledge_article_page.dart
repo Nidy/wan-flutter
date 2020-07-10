@@ -64,6 +64,7 @@ class _KnowledgeArticlePageState extends State<KnowledgeArticlePage> {
                             title: item.title,
                             url: item.link,
                             id: item.id,
+                            collect: item.collect,
                           ))),
                       child: _projectItem(item),
                     );
