@@ -87,7 +87,7 @@ class _SearchArticalPageState extends State<SearchArticalPage> {
                 prefixIcon: Padding(
                     padding: EdgeInsets.all(6),
                     child: Icon(Icons.search)),
-                hintText: '输入地点或商区名称',
+                hintText: '输入文章或作者名称',
                 counterText: '',
                 contentPadding: EdgeInsets.only(left: 10.0, right: 10.0),
                 isDense: true,
@@ -108,7 +108,7 @@ class _SearchArticalPageState extends State<SearchArticalPage> {
           ),
           SizedBox(width: 8),
           SizedBox(
-            width: 60,
+            width: 72,
             child: FlatButton(
               color: Colors.white,
               child: Text(

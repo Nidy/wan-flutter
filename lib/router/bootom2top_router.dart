@@ -14,7 +14,7 @@ class Bottom2TopRouter<T> extends PageRouteBuilder<T> {
             },
             transitionsBuilder: (ctx, c1, c2, Widget child) {
               return SlideTransition(
-                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                position: Tween(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
                     .animate(CurvedAnimation(parent: c1, curve: curve)),
                 child: child,
               );

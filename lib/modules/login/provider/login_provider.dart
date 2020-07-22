@@ -42,7 +42,7 @@ class LoginProvider with ChangeNotifier {
       _needLogin = sp.getBool(Constants.NEED_LOGIN) ?? true;
       _canLoadFav = !_needLogin;
       _user = EntityFactory.generateObj<UserEntity>(
-          jsonDecode(sp.getString(Constants.USER_PROFILE) ?? null));
+          jsonDecode(sp.getString(Constants.USER_PROFILE) ?? ""));
     });
   }
 
