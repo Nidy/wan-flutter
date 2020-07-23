@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Bottom2TopRouter<T> extends PageRouteBuilder<T> {
+class Left2RightRouter<T> extends PageRouteBuilder<T> {
   final Widget child;
   final int duration_ms;
   final Curve curve;
 
-  Bottom2TopRouter(
+  Left2RightRouter(
       {this.child, this.duration_ms = 500, this.curve = Curves.fastOutSlowIn})
       : super(
             transitionDuration: Duration(milliseconds: duration_ms),

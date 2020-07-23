@@ -6,7 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanflutter/http/entity/project_entity.dart';
 import 'package:wanflutter/modules/project/provider/project_model.dart';
 import 'package:wanflutter/modules/project/provider/project_provider.dart';
-import 'package:wanflutter/router/bootom2top_router.dart';
+import 'package:wanflutter/router/left2right_router.dart';
 import 'package:wanflutter/theme/app_style.dart';
 import 'package:wanflutter/widget/empty_holder.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
@@ -58,7 +58,7 @@ class _ProjectCategoryState extends State<ProjectCategoryWidget>
                     return GestureDetector(
                       onTap: () => Navigator.push(
                           ctx,
-                          Bottom2TopRouter(
+                          Left2RightRouter(
                               child: CommonWebview(
                             title: item.title,
                             url: item.link,

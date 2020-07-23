@@ -7,7 +7,7 @@ import 'package:wanflutter/generated/l10n.dart';
 import 'package:wanflutter/http/entity/article_entity.dart';
 import 'package:wanflutter/modules/common/search_artical_page.dart';
 import 'package:wanflutter/modules/home/provider/home_provider.dart';
-import 'package:wanflutter/router/bootom2top_router.dart';
+import 'package:wanflutter/router/left2right_router.dart';
 import 'package:wanflutter/theme/app_style.dart';
 import 'package:wanflutter/widget/banner_widget.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage>
                 height: 200,
                 onTap: (i) => Navigator.push(
                     context,
-                    Bottom2TopRouter(
+                    Left2RightRouter(
                         child: CommonWebview(
                       title: hp.banners[i].title,
                       url: hp.banners[i].url,
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage>
     return GestureDetector(
       onTap: () => Navigator.push(
           ctx,
-          Bottom2TopRouter(
+          Left2RightRouter(
               child: CommonWebview(
             title: ae.title,
             url: ae.link,

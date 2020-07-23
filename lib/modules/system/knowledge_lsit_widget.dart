@@ -35,7 +35,7 @@ class _KnowledgeListWidget extends State<KnowledgeListWidget>
           return <Widget>[
             new SliverToBoxAdapter(
               child: Container(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 width: double.infinity,
                 child: TabBar(
                   tabs: _buildTabBar(widget.categorys.children),

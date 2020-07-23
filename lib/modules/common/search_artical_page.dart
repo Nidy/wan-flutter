@@ -5,7 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanflutter/http/entity/article_entity.dart';
 import 'package:wanflutter/http/entity/page_entity.dart';
 import 'package:wanflutter/http/http_manager.dart';
-import 'package:wanflutter/router/bootom2top_router.dart';
+import 'package:wanflutter/router/left2right_router.dart';
 import 'package:wanflutter/theme/app_style.dart';
 import 'package:wanflutter/widget/webview/common_webview.dart';
 
@@ -134,7 +134,7 @@ _itemArticle(BuildContext ctx, ArticleEntity ae) {
   return GestureDetector(
     onTap: () => Navigator.push(
         ctx,
-        Bottom2TopRouter(
+        Left2RightRouter(
             child: CommonWebview(
           title: ae.title,
           url: ae.link,

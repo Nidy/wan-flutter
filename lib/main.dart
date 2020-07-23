@@ -50,10 +50,7 @@ class MyApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate
           ],
           supportedLocales: S.delegate.supportedLocales,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+          theme: _appConfig.themeData,
           locale: appConfig.currLocale,
           home: RefreshConfiguration(
               headerBuilder: () =>
@@ -167,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.camera,
+            Icons.android,
           ),
           title: Text(
             S.of(context).tabSystem,
@@ -183,10 +180,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.blueAccent,
-      unselectedItemColor: _bottomNavigationColor,
-      selectedIconTheme: IconThemeData(color: Colors.blueAccent),
-      unselectedIconTheme: IconThemeData(color: _bottomNavigationColor),
       selectedFontSize: 14.0,
       unselectedFontSize: 14.0,
       currentIndex: _currentIndex,
